@@ -83,18 +83,38 @@ fn get_files_in_directory(_files: &Vec<DirEntry>, dir: &Path) -> Vec<DirEntry> {
     files
 }
 
-
 fn convert_to_hex_from_decimal(file: &str) -> String {
-    let file_name = file
+    let file_segments = file
         .split(".")
-        .collect::<Vec<&str>>()[0];
+        .collect::<Vec<&str>>();
+
+    let file_name = file_segments[0];
+    let file_type: &str = file_segments[1];
 
     let mut hex_string = String::new();
 
     let string_decimal = file_name.parse::<u32>().unwrap();
 
-    hex_string.push_str(&format!("{:X}", string_decimal));
+    hex_string.push_str(&format!("{:X}.{}", string_decimal, file_type));
 
     hex_string
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_convert_to_hex_from_decimal() {
+        let file = "1234.txt";
+        let result = convert_to_hex_from_decimal(file);
+        assert_eq!(result, "4D2.txt");
+    }
+
+    #[test]
+    fn test_get_files_in_directory() {
+        let dir = Path::new(".");
+        let files = get_files_in_directory(&vec![], &dir);
+        assert!(!files.is_empty());
+    }
+}

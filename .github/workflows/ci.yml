@@ -1,5 +1,13 @@
 name: build and release
 
+on:
+  workflow_dispatch:
+  release:
+    types: [ created ]
+
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Release - ${{ matrix.platform.os-name }}

@@ -1,13 +1,5 @@
 name: build and release
 
-on:
-  workflow_dispatch:
-  release:
-    types: [ created ]
-
-permissions:
-  contents: write
-
 jobs:
   release:
     name: Release - ${{ matrix.platform.os-name }}
@@ -32,5 +24,5 @@ jobs:
       - name: Publish artifacts and release
         uses: houseabsolute/actions-rust-release@v0
         with:
-          executable-name: ubi
+          executable-name: hexalot
           target: ${{ matrix.platform.target }}
